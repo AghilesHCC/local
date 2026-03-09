@@ -708,6 +708,52 @@ class ApiClient {
   async delete<T = unknown>(endpoint: string): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, { method: "DELETE" });
   }
+
+  // ============= COURRIER =============
+  async getUserCourrier(domiciliationId: string) {
+    return this.request(`/admin/courrier.php?domiciliation_id=${domiciliationId}`);
+  }
+
+  async updateCourrier(courrierId: string, data: Record<string, unknown>) {
+    return this.request(`/admin/courrier.php`, {
+      method: "PUT",
+      body: JSON.stringify(objectToSnakeCase({ id: courrierId, ...data })),
+    });
+  }
+
+  async createCourrier(data: Record<string, unknown>) {
+    return this.request(`/admin/courrier.php`, {
+      method: "POST",
+      body: JSON.stringify(objectToSnakeCase(data)),
+    });
+  }
+
+  // ============= DOCUMENTS =============
+  async getDocuments(entityType: string, entityId: string) {
+    return this.request(`/documents/index.php?entity_type=${entityType}&entity_id=${entityId}`);
+  }
+
+  // ============= WALK-INS =============
+  async createWalkIn(data: Record<string, unknown>) {
+    const snakeCaseData = objectToSnakeCase(data);
+    return this.request("/admin/walk-ins.php", {
+      method: "POST",
+      body: JSON.stringify(snakeCaseData),
+    });
+  }
+
+  async updateWalkIn(id: string, data: Record<string, unknown>) {
+    const snakeCaseData = objectToSnakeCase(data);
+    return this.request(`/admin/walk-ins.php?id=${id}`, {
+      method: "PUT",
+      body: JSON.stringify(snakeCaseData),
+    });
+  }
+
+  // ============= BLOCAGES =============
+  async getBlocages() {
+    return this.request("/admin/blocages.php");
+  }
 }
 
 export const apiClient = new ApiClient();
