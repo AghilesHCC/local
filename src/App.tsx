@@ -6,7 +6,6 @@ import LoadingScreen from "./components/LoadingScreen";
 import PublicLayout from "./components/PublicLayout";
 import ScrollToTop from "./components/ScrollToTop";
 
-import { useScrollAnimation } from "./hooks/useScrollAnimation";
 import { useAuthStore } from "./store/authStore";
 import { useAppStore } from "./store/store";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -28,7 +27,6 @@ const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 import { BLOG_ENABLED } from "./data/blogArticles";
 
 function App() {
-  useScrollAnimation();
   const authStore = useAuthStore();
   const initRef = React.useRef(false);
 
