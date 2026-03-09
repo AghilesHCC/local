@@ -1,20 +1,16 @@
 import React, { Suspense, lazy } from "react";
-import { Routes, Route } from "react-router-dom";
-import { motion } from "framer-motion";
+import { Routes, Route, Link } from "react-router-dom";
 import ErrorBoundary from "./components/ErrorBoundary";
 import LoadingScreen from "./components/LoadingScreen";
 
-// Components (chargés immédiatement)
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import PublicLayout from "./components/PublicLayout";
 import ScrollToTop from "./components/ScrollToTop";
 
-// Hooks
 import { useScrollAnimation } from "./hooks/useScrollAnimation";
 import { useAuthStore } from "./store/authStore";
-import { apiClient } from "./lib/api-client";
+import { useAppStore } from "./store/store";
+import ProtectedRoute from "./components/ProtectedRoute";
 
-// Pages (lazy loaded)
 const Home = lazy(() => import("./pages/Home"));
 const SpacesAndPricing = lazy(() => import("./pages/SpacesAndPricing"));
 const About = lazy(() => import("./pages/About"));
@@ -37,12 +33,12 @@ function App() {
   const initRef = React.useRef(false);
 
   React.useEffect(() => {
-    // Initialiser UNE SEULE FOIS au montage de l'application
     if (initRef.current) return;
     initRef.current = true;
 
     const initApp = async () => {
       await authStore.initialize();
+      await useAppStore.getState().initializeData();
     };
 
     initApp();
@@ -60,135 +56,94 @@ function App() {
 
         <Suspense fallback={<LoadingScreen />}>
           <Routes>
-            {/* Pages publiques avec navigation */}
             <Route
               path="/"
               element={
-                <>
-                  <Navbar />
-                  <motion.main
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <Home />
-                  </motion.main>
-                  <Footer />
-                </>
+                <PublicLayout>
+                  <Home />
+                </PublicLayout>
               }
             />
 
             <Route
               path="/espaces"
               element={
-                <>
-                  <Navbar />
-                  <motion.main
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <SpacesAndPricing />
-                  </motion.main>
-                  <Footer />
-                </>
+                <PublicLayout>
+                  <SpacesAndPricing />
+                </PublicLayout>
               }
             />
 
             <Route
               path="/tarifs"
               element={
-                <>
-                  <Navbar />
-                  <motion.main
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <SpacesAndPricing />
-                  </motion.main>
-                  <Footer />
-                </>
+                <PublicLayout>
+                  <SpacesAndPricing />
+                </PublicLayout>
               }
             />
 
             <Route
               path="/a-propos"
               element={
-                <>
-                  <Navbar />
-                  <motion.main
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <About />
-                  </motion.main>
-                  <Footer />
-                </>
+                <PublicLayout>
+                  <About />
+                </PublicLayout>
               }
             />
 
             <Route
               path="/domiciliation"
               element={
-                <>
-                  <Navbar />
-                  <motion.main
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <DomiciliationPublic />
-                  </motion.main>
-                  <Footer />
-                </>
+                <PublicLayout>
+                  <DomiciliationPublic />
+                </PublicLayout>
               }
             />
 
             <Route
               path="/mentions-legales"
               element={
-                <>
-                  <Navbar />
-                  <motion.main
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <Legal />
-                  </motion.main>
-                  <Footer />
-                </>
+                <PublicLayout>
+                  <Legal />
+                </PublicLayout>
               }
             />
 
-            {/* Pages d'authentification */}
             <Route path="/connexion" element={<Login />} />
             <Route path="/inscription" element={<Register />} />
             <Route path="/mot-de-passe-oublie" element={<ForgotPassword />} />
             <Route path="/reinitialiser-mot-de-passe" element={<ResetPassword />} />
 
-            {/* Dashboard (application) */}
-            <Route path="/app/*" element={<Dashboard />} />
+            <Route
+              path="/app/*"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
 
-            {/* ERP System pour admin */}
-            <Route path="/erp/*" element={<ERPSystem />} />
+            <Route
+              path="/erp/*"
+              element={
+                <ProtectedRoute requireAdmin>
+                  <ERPSystem />
+                </ProtectedRoute>
+              }
+            />
 
-            {/* Blog (conditionnel) */}
             {BLOG_ENABLED && (
               <>
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/blog/:slug" element={<BlogArticle />} />
+                <Route path="/blog" element={<PublicLayout><Blog /></PublicLayout>} />
+                <Route path="/blog/:slug" element={<PublicLayout><BlogArticle /></PublicLayout>} />
               </>
             )}
 
-            {/* Page 404 - doit être en dernier */}
             <Route
               path="*"
               element={
-                <>
-                  <Navbar />
+                <PublicLayout>
                   <div className="min-h-screen flex items-center justify-center bg-gray-50">
                     <div className="text-center">
                       <h1 className="text-6xl font-bold text-gray-800 mb-4">
@@ -197,13 +152,12 @@ function App() {
                       <p className="text-xl text-gray-600 mb-8">
                         Page non trouvée
                       </p>
-                      <a href="/" className="btn-primary">
+                      <Link to="/" className="btn-primary">
                         Retour à l'accueil
-                      </a>
+                      </Link>
                     </div>
                   </div>
-                  <Footer />
-                </>
+                </PublicLayout>
               }
             />
           </Routes>

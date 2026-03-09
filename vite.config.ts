@@ -19,23 +19,25 @@ export default defineConfig({
           const htaccessDest = resolve(distDir, ".htaccess");
           if (existsSync(htaccessSource)) {
             copyFileSync(htaccessSource, htaccessDest);
-            console.log("✓ .htaccess copied to dist/");
           }
         } catch (error) {
-          console.warn("Warning: Could not copy .htaccess:", error.message);
+          const msg = error instanceof Error ? error.message : String(error);
+          console.warn("Warning: Could not copy .htaccess:", msg);
         }
       },
     },
   ],
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, "src"),
+    },
+  },
   server: {
     port: 8080,
     host: true,
     strictPort: false,
     hmr: {
       overlay: true,
-    },
-    fs: {
-      strict: false,
     },
   },
   build: {
@@ -49,21 +51,6 @@ export default defineConfig({
           "ui-vendor": ["framer-motion", "lucide-react"],
           "form-vendor": ["react-hook-form", "react-datepicker"],
           utils: ["date-fns", "zustand"],
-          dashboard: [
-            "./src/pages/Dashboard.tsx",
-            "./src/pages/dashboard/Profile.tsx",
-            "./src/pages/dashboard/Reservations.tsx",
-            "./src/pages/dashboard/Settings.tsx",
-          ],
-          admin: [
-            "./src/pages/dashboard/admin/Users.tsx",
-            "./src/pages/dashboard/admin/Spaces.tsx",
-            "./src/pages/dashboard/admin/Reservations.tsx",
-          ],
-          erp: [
-            "./src/components/erp/Dashboard.tsx",
-            "./src/components/erp/AnalyticsAndReporting.tsx",
-          ],
         },
       },
     },
