@@ -1,25 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import {
-  Users,
-  Plus,
-  Clock,
-  Banknote,
-  Phone,
-  Building,
-  MapPin,
-  Calendar,
-  CheckCircle,
-  XCircle,
-  Timer,
-  ArrowRight,
-  Edit,
-  Trash2,
-  Download,
-  Search,
-  RefreshCw,
-  TrendingUp,
-  UserPlus,
-} from 'lucide-react';
+import { Users, Plus, Clock, Banknote, Phone, Building, MapPin, Calendar, CheckCircle, XCircle, Timer, ArrowRight, FileEdit as Edit, Trash2, Download, Search, RefreshCw, TrendingUp, UserPlus } from 'lucide-react';
 import { format, differenceInMinutes, isToday } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import Card from '../../../components/ui/Card';
