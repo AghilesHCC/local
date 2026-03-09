@@ -98,3 +98,19 @@ export const formatPhoneNumber = (phone: string): string => {
 
   return phone;
 };
+
+export const buildCsvContent = (headers: string[], rows: string[][]): string => {
+  const escapeCsvValue = (value: string | number | boolean | null | undefined): string => {
+    if (value === null || value === undefined) return '';
+    const str = String(value);
+    if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+      return `"${str.replace(/"/g, '""')}"`;
+    }
+    return str;
+  };
+
+  const headerLine = headers.map(escapeCsvValue).join(',');
+  const dataLines = rows.map(row => row.map(escapeCsvValue).join(',')).join('\n');
+
+  return `${headerLine}\n${dataLines}`;
+};

@@ -19,6 +19,10 @@ import {
   Tag,
   Gift,
   Bell,
+  Clock,
+  UserPlus,
+  Ban,
+  FlaskConical,
 } from "lucide-react";
 import { useAuthStore } from "../../store/authStore";
 import { useAppStore } from "../../store/store";
@@ -88,6 +92,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     { name: "Réservations", href: "/app/reservations", icon: Calendar },
     { name: "Notifications", href: "/app/notifications", icon: Bell },
     { name: "Domiciliation", href: "/app/domiciliation", icon: Building },
+    { name: "Mon Espace", href: "/app/mon-espace", icon: Building },
     { name: "Mon Entreprise", href: "/app/mon-entreprise", icon: FileText },
     { name: "Abonnements", href: "/app/abonnements", icon: CreditCard },
     { name: "Parrainage", href: "/app/parrainage", icon: Gift },
@@ -96,6 +101,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 
   const adminNavigation = [
     { name: "Tableau de bord", href: "/app", icon: Home },
+    { name: "Aujourd'hui", href: "/app/admin/aujourdhui", icon: Clock },
+    { name: "Walk-ins", href: "/app/admin/walk-ins", icon: UserPlus },
+    { name: "Blocages", href: "/app/admin/blocages", icon: Ban },
     { name: "Notifications", href: "/app/notifications", icon: Bell },
     { name: "Utilisateurs", href: "/app/admin/users", icon: Users },
     { name: "Espaces", href: "/app/admin/spaces", icon: Building },
@@ -109,6 +117,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     { name: "Codes Promo", href: "/app/admin/codes-promo", icon: Tag },
     { name: "Parrainages", href: "/app/admin/parrainages", icon: Gift },
     { name: "Rapports", href: "/app/admin/reports", icon: BarChart3 },
+    { name: "Tests Système", href: "/app/admin/system-tests", icon: FlaskConical },
     { name: "Paramètres", href: "/app/admin/settings", icon: Settings },
   ];
 

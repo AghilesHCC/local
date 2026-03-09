@@ -27,6 +27,11 @@ import AdminCodesPromo from "./dashboard/admin/CodesPromo";
 import AdminParrainages from "./dashboard/admin/Parrainages";
 import AdminSettings from "./dashboard/admin/Settings";
 import AdminAbonnements from "./dashboard/admin/Abonnements";
+import Aujourdhui from "./dashboard/admin/Aujourdhui";
+import Blocages from "./dashboard/admin/Blocages";
+import SystemTests from "./dashboard/admin/SystemTests";
+import WalkIns from "./dashboard/admin/WalkIns";
+import MonEspace from "./dashboard/MonEspace";
 
 const Dashboard = () => {
   const { user } = useAuthStore();
@@ -48,6 +53,7 @@ const Dashboard = () => {
           <Route path="reservations/:id" element={<ReservationDetail />} />
           <Route path="notifications" element={<Notifications />} />
           <Route path="domiciliation" element={<Domiciliation />} />
+          <Route path="mon-espace" element={<MonEspace />} />
           <Route path="mon-entreprise" element={<MyCompany />} />
           <Route path="abonnements" element={<Abonnements />} />
           <Route path="parrainage" element={<Parrainage />} />
@@ -56,6 +62,9 @@ const Dashboard = () => {
           {/* Routes admin */}
           {user?.role === "admin" && (
             <>
+              <Route path="admin/aujourdhui" element={<Aujourdhui />} />
+              <Route path="admin/walk-ins" element={<WalkIns />} />
+              <Route path="admin/blocages" element={<Blocages />} />
               <Route path="admin/users" element={<AdminUsers />} />
               <Route path="admin/users/:id" element={<UserDetail />} />
               <Route path="admin/spaces" element={<AdminSpaces />} />
@@ -72,6 +81,7 @@ const Dashboard = () => {
               <Route path="admin/codes-promo" element={<AdminCodesPromo />} />
               <Route path="admin/parrainages" element={<AdminParrainages />} />
               <Route path="admin/reports" element={<AdminReports />} />
+              <Route path="admin/system-tests" element={<SystemTests />} />
               <Route path="admin/settings" element={<AdminSettings />} />
             </>
           )}

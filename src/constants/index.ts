@@ -64,9 +64,10 @@ export const USER_STATUTS = {
 export type UserStatut = (typeof USER_STATUTS)[keyof typeof USER_STATUTS];
 
 export const DOMICILIATION_STATUTS = {
-  EN_ATTENTE: "en_attente",
-  EN_COURS: "en_cours",
-  VALIDEE: "validee",
+  DOSSIER_PREPARATOIRE: "dossier_preparatoire",
+  EN_ATTENTE_SIGNATURE: "en_attente_signature",
+  DOMICILIATION_CREEE: "domiciliation_creee",
+  EN_ATTENTE_COMPLEMENTS: "en_attente_complements",
   ACTIVE: "active",
   REFUSEE: "refusee",
   EXPIREE: "expiree",
@@ -76,10 +77,39 @@ export const DOMICILIATION_STATUTS = {
 export type DomiciliationStatut =
   (typeof DOMICILIATION_STATUTS)[keyof typeof DOMICILIATION_STATUTS];
 
+export const DOMICILIATION_STATUT_LABELS: Record<DomiciliationStatut, string> = {
+  [DOMICILIATION_STATUTS.DOSSIER_PREPARATOIRE]: "Dossier préparatoire",
+  [DOMICILIATION_STATUTS.EN_ATTENTE_SIGNATURE]: "En attente de signature notariale",
+  [DOMICILIATION_STATUTS.DOMICILIATION_CREEE]: "Domiciliation créée",
+  [DOMICILIATION_STATUTS.EN_ATTENTE_COMPLEMENTS]: "En attente de compléments",
+  [DOMICILIATION_STATUTS.ACTIVE]: "Domiciliation active",
+  [DOMICILIATION_STATUTS.REFUSEE]: "Refusée",
+  [DOMICILIATION_STATUTS.EXPIREE]: "Expirée",
+  [DOMICILIATION_STATUTS.RESILIEE]: "Résiliée",
+};
+
+export const SITUATION_ADMINISTRATIVE = {
+  EN_COURS_CREATION: "en_cours_creation",
+  DEJA_CREEE: "deja_creee",
+} as const;
+
+export type SituationAdministrative =
+  (typeof SITUATION_ADMINISTRATIVE)[keyof typeof SITUATION_ADMINISTRATIVE];
+
+export const TYPE_STRUCTURE = {
+  SOCIETE: "societe",
+  AUTO_ENTREPRENEUR: "auto_entrepreneur",
+} as const;
+
+export type TypeStructure =
+  (typeof TYPE_STRUCTURE)[keyof typeof TYPE_STRUCTURE];
+
 export const TYPE_RESERVATION = {
   HEURE: "heure",
+  DEMI_JOURNEE: "demi_journee",
   JOUR: "jour",
   SEMAINE: "semaine",
+  MOIS: "mois",
 } as const;
 
 export type TypeReservation =
